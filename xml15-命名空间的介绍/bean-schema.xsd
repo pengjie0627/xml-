@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	传智播客Schema教学实例文档。
+	模拟spring规范，如果开发人员需要在xml使用当前Schema约束，必须包括指定命名空间。
+	格式如下：
+	<beans xmlns="http://www.itcast.cn/bean"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.itcast.cn/bean bean-schema.xsd"
+	>
+-->
+<!--xsd文件中, xmlns ="http://www.w3.org/2001/XMLSchema" ,这是schema自带的，不能修改，但是可以给别名,如：xmlns:aa="http://www.w3.org/2001/XMLSchema"  -->
+<!--xsd文件中, targetNamespace="http://www.itcast.cn/bean" 指定了当前这个xsd文件中定义的元素或者属性的前缀 -->
+<!--xsd文件中, xmlns:xsd="http://www.w3.org/2001/XMLSchema" 要用到这个schema文件中的元素，需要添加前缀xsd -->
+<!--xsd文件中, xxmlns:tns="http://www.itcast.cn/bean" 要用到这个schema文件中的元素，需要添加前缀tns -->
+<!--xsd文件中, elementFormDefault="qualified"，全局元素和非全局元素都必须加上命名空间 -->
+
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.itcast.cn/bean"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.itcast.cn/bean" 
+		elementFormDefault="qualified">
+	<!-- 声明根标签 
+		1. <element> 声明元素(标签)
+		2. 每一个元素必须确定类型：
+			complexType 复杂类型
+			simpleType 简单类型,一般不用，大部分都是复杂类型
+		3. 需要继续明确子标签出差顺序
+			<choice> 选择， ()
+			<sequence> 顺序 ，
+			<all> 任意
+				minOccurs 最少出现次数
+				maxOccurs 最大出现次数，unbounded 不限制(没有边)
+		4.<attribute>用于给元素声明属性的
+			use 设置属性使用， optional可选、required必选
+			
+	-->
+	<element name="beans">
+		<complexType>
+			<choice minOccurs="0" maxOccurs="unbounded">
+				<element name="bean">
+					<complexType>
+						<sequence minOccurs="0" maxOccurs="unbounded">
+							<element name="property">
+								<complexType>
+									<attribute name="name" use="optional"></attribute>
+									<attribute name="value" use="required"></attribute>
+								</complexType>
+							</element>
+						</sequence>
+						<attribute name="id" use="required"></attribute>
+						<attribute name="className" use="required"></attribute>
+					</complexType>
+				</element>
+				<element name="import">
+					<complexType>
+						<attribute name="resource" use="required"></attribute>
+					</complexType>
+				</element>
+			</choice>
+		</complexType>
+	</element>
+</schema>
